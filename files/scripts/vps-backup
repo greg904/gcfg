@@ -1,0 +1,20 @@
+#!/bin/sh
+# Creates a new archive for the `/bubble` directory on my VPS.
+set -eu
+
+cd /bubble
+
+export BORG_REPO=ssh://backup@gregdf.com/~/borg-repo
+
+# The umask must allow files to be read by users in the `backup` group such as
+# the `gdrive` user.
+borg create \
+	--verbose \
+	--filter AME \
+	--list \
+	--stats \
+	--show-rc \
+	--compression zstd,22 \
+	--umask 0007 \
+	::'{now}' \
+	*
