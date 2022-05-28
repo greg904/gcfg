@@ -1,0 +1,2 @@
+Match host gregdf.com exec vps-port-knock
+AddKeysToAgent yes

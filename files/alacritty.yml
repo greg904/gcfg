@@ -1,0 +1,23 @@
+font:
+  normal:
+    family: Iosevka
+  size: 14
+
+window:
+  # Do not center the terminal's content.
+  dynamic_padding: false
+
+mouse_bindings:
+  # Disable the default binding that pastes when the middle button is pressed.
+  - { mouse: Middle, action: None }
+
+hints:
+  # Disable clicking on a link to open it because I don't have a graphical
+  # browser installed.
+  enabled:
+    - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
+      command: xdg-open
+      post_processing: true
+      mouse:
+        enabled: false
+        mods: None

@@ -1,0 +1,180 @@
+global !p
+def math():
+	return vim.eval('vimtex#syntax#in_mathzone()') == '1'
+endglobal
+
+snippet article "Article template" b
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\title{$1}
+\author{Greg Depoire--Ferrer}
+\date{`!p
+import datetime
+snip.rv = datetime.date.today().strftime('%d/%m/%Y')
+`}
+
+\begin{document}
+$0
+\end{document}
+endsnippet
+
+snippet exercise "Exercise template" b
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+\title{Exercice $1}
+\author{Greg Depoire--Ferrer}
+\date{`!p
+import datetime
+snip.rv = datetime.date.today().strftime('%d/%m/%Y')
+`}
+
+\begin{document}
+\maketitle
+\begin{enumerate}
+	$0
+\end{enumerate}
+\end{document}
+endsnippet
+
+context "math()"
+snippet // "Fraction" iA
+\\frac{${1:${VISUAL}}}{$2}$0
+endsnippet
+
+context "math()"
+snippet mto "\mapsto (function definition arrow)" wA
+\mapsto
+endsnippet
+
+context "math()"
+snippet scu "Sequence/series uniformly converges to" wA
+\xrightarrow{\text{CU}}
+endsnippet
+
+context "math()"
+snippet scs "Sequence/series simply converges to" wA
+\xrightarrow{\text{CS}}
+endsnippet
+
+context "math()"
+snippet scn "Sequence/series normally converges to" wA
+\xrightarrow{\text{CN}}
+endsnippet
+
+context "math()"
+snippet xra "\xrightarrow" wA
+\xrightarrow{${1}}
+endsnippet
+
+context "math()"
+snippet int "Integral" wA
+\int_{${1:-\infty}}^{${2:\infty}} ${3:${VISUAL}} $0
+endsnippet
+
+context "math()"
+snippet sum "Sum" wA
+\sum_{${1:n=0}}^{${2:\infty}} ${3:${VISUAL}} $0
+endsnippet
+
+context "math()"
+snippet abs "Absolute value" wA
+\left\lvert ${1:${VISUAL}}\right\rvert $0
+endsnippet
+
+context "math()"
+snippet norm "Norm" wA
+\left\lVert ${1:${VISUAL}}\right\rVert $0
+endsnippet
+
+snippet beg "Environment" bA
+\begin{$1}
+	$0
+\end{$1}
+endsnippet
+
+context "math()"
+snippet bp "Big parentheses" w
+\left(${1:${VISUAL}}\right)
+endsnippet
+
+context "math()"
+snippet o "Small O" w
+o$1(${2:${VISUAL}})
+endsnippet
+
+context "math()"
+snippet O "Big O" w
+O$1(${2:${VISUAL}})
+endsnippet
+
+context "math()"
+snippet theta "Big theta" w
+\Theta$1(${2:${VISUAL}})
+endsnippet
+
+context "math()"
+snippet eq "Is equivalent to" w
+\sim
+endsnippet
+
+context "math()"
+snippet bb "Blackboard math font" wA
+\mathbb{${1:${VISUAL}}}
+endsnippet
+
+context "math()"
+snippet rps "The set of positive reals" wA
+\mathbb{R}_+^*
+endsnippet
+
+context "math()"
+snippet ns "The set of positive integers" wA
+\mathbb{N}^*
+endsnippet
+
+context "math()"
+snippet and "^ (and)" wA
+\wedge
+endsnippet
+
+context "math()"
+snippet or "v (or)" wA
+\vee
+endsnippet
+
+context "math()"
+snippet nit "Interval (integers)" wA
+\llbracket ${1:${VISUAL}}\rrbracket
+endsnippet
+
+context "math()"
+snippet inf "Infinity symbol" wA
+\infty
+endsnippet
+
+context "math()"
+snippet es "Empty set" wA
+\emptyset
+endsnippet
+
+context "math()"
+snippet sm "Set minus" wA
+\setminus
+endsnippet
+
+context "math()"
+snippet pd "Partial derivative" wA
+\partial 
+endsnippet
+
+context "math()"
+snippet op "Operator" wA
+\operatorname{$1}$0
+endsnippet
+
+snippet let "Let" wA
+Soit $${1:${VISUAL}}.$
+endsnippet

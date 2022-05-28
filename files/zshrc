@@ -1,0 +1,117 @@
+#
+# ALIASES
+#
+
+alias ls='ls --color=auto'
+
+#
+# KEY BINDINGS
+#
+
+# Start with the emacs keymap.
+bindkey -e
+
+[[ -n "${terminfo[kpp]}" ]] && \
+	bindkey -- "${terminfo[kpp]}" up-line-or-history
+bindkey -s '^[[6;3~' ''
+bindkey -s '^[[6;5~' ''
+bindkey -s '^[[6;7~' ''
+[[ -n "${terminfo[knp]}" ]] && \
+	bindkey -- "${terminfo[knp]}" down-line-or-history
+bindkey -s '^[[5;3~' ''
+bindkey -s '^[[5;5~' ''
+bindkey -s '^[[5;7~' ''
+
+if [[ -n "${terminfo[kcuu1]}" ]]; then
+	autoload -U up-line-or-beginning-search
+	zle -N up-line-or-beginning-search
+	bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
+fi
+
+if [[ -n "${terminfo[kcud1]}" ]]; then
+	autoload -U down-line-or-beginning-search
+	zle -N down-line-or-beginning-search
+	bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+fi
+
+[[ -n "${terminfo[khome]}" ]] && \
+	bindkey -- "${terminfo[khome]}" beginning-of-line
+[[ -n "${terminfo[kend]}" ]] && \
+	bindkey -- "${terminfo[kend]}" end-of-line
+[[ -n "${terminfo[kcbt]}" ]] && \
+	bindkey -- "${terminfo[kcbt]}" reverse-menu-complete
+bindkey -- '^?' backward-delete-char
+
+if [[ -n "${terminfo[kdch1]}" ]]; then
+	bindkey "${terminfo[kdch1]}" delete-char
+else
+	bindkey '^[[3~' delete-char
+	bindkey '^[3;5~' delete-char
+fi
+
+bindkey '^[[3;5~' kill-word
+[[ -n "${terminfo[cub1]}" ]] && \
+	bindkey "${terminfo[cub1]}" backward-kill-word
+bindkey '^[[3;3~' kill-word
+bindkey '^[[1;5C' forward-word
+bindkey -s '^[[1;3C' ''
+bindkey '^[[1;5D' backward-word
+bindkey -s '^[[1;3D' ''
+bindkey ' ' magic-space
+
+# Make sure that the terminal is in application mode when zle is active, since
+# only then values from $terminfo are valid.
+if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
+	function zle-line-init() { echoti smkx }
+	function zle-line-finish() { echoti rmkx }
+	zle -N zle-line-init
+	zle -N zle-line-finish
+fi
+
+#
+# SSH AGENT (LAZY LOADING)
+#
+
+function _with_ssh_agent() {
+	# Try to use the current agent first.
+	ssh-add -l &> /dev/null
+	if [ $? -eq 2 ]; then
+		# Then try to connect to an existing agent if that failed.
+		[ -r ~/.ssh/agent ] && \
+			source ~/.ssh/agent > /dev/null
+		ssh-add -l &> /dev/null
+		if [ $? -eq 2 ]; then
+			# Then start an agent if that failed.
+			(umask 066; ssh-agent -t 3600 > ~/.ssh/agent)
+			source ~/.ssh/agent > /dev/null
+		fi
+	fi
+
+	# Run original command.
+	$@
+}
+
+alias ssh='_with_ssh_agent ssh'
+alias scp='_with_ssh_agent scp'
+
+#
+# SHELL CONFIGURATION
+#
+
+PROMPT='%F{green}%~%f $ '
+
+# Enable command history.
+HISTFILE="$HOME/.histfile"
+HISTSIZE=2000
+SAVEHIST=$HISTSIZE
+
+# When the tab key is pressed and the completion is ambiguous, always insert
+# the first completion.
+setopt MENU_COMPLETE
+
+# Enable command completion.
+autoload -U compinit
+compinit
+
+source "$HOME/.local/share/zsh-plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$HOME/.local/share/zsh-plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
