@@ -6,6 +6,7 @@ fn write_file(path: impl AsRef<Path>, contents: &[u8], mode: u32, user: bool) ->
     let mut f = File::options()
         .truncate(true)
         .write(true)
+        .create(true)
         .open(&path)?;
     f.write_all(contents)?;
     let mut p = f.metadata()?.permissions();
