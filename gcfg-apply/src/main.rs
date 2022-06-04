@@ -130,12 +130,6 @@ fn main() -> io::Result<()> {
             false,
         )?;
         write_file(
-            "/usr/local/bin/vps-port-knock",
-            include_bytes!("../../files/scripts/vps-port-knock"),
-            0o755,
-            false,
-        )?;
-        write_file(
             "/usr/local/bin/vps-backup",
             include_bytes!("../../files/scripts/vps-backup"),
             0o755,
