@@ -205,16 +205,8 @@ fn main() -> io::Result<()> {
         "/home/greg/.local/share/zsh-plugins/zsh-history-substring-search",
     )?;
     clone_or_update_git_repo_as_user(
-        "https://github.com/airblade/vim-rooter.git",
-        "/home/greg/.local/share/nvim/site/pack/my-plugins/start/vim-rooter",
-    )?;
-    clone_or_update_git_repo_as_user(
         "https://github.com/editorconfig/editorconfig-vim.git",
         "/home/greg/.local/share/nvim/site/pack/my-plugins/start/editorconfig-vim",
-    )?;
-    clone_or_update_git_repo_as_user(
-        "https://github.com/itchyny/lightline.vim",
-        "/home/greg/.local/share/nvim/site/pack/my-plugins/start/lightline",
     )?;
     Ok(())
 }

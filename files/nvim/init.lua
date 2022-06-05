@@ -1,28 +1,45 @@
-vim.o.textwidth = 120
+---
+-- Code style
+---
+
+vim.o.textwidth = 80
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
+
+---
+-- VimLaTeX
+---
 
 vim.g.tex_flavor = 'latex'
 vim.g.vimtex_view_method = 'zathura'
 vim.g.vimtex_format_enabled = 1
 
---
--- GUI CONFIGURATION
---
+---
+-- GUI configuration
+---
 
 vim.o.mouse = 'a'
 
 vim.o.number = true
+vim.o.relativenumber = true
 vim.o.signcolumn = 'number'
 
 vim.o.conceallevel = 1
 
+-- Use a global status bar instead of showing one for each window.
+vim.g.laststatus = 3
+
 -- Make concealed text blend in with normal text.
 vim.cmd 'highlight Conceal ctermbg=NONE'
 
---
+vim.cmd 'highlight LineNr gui=NONE cterm=NONE ctermfg=242 ctermbg=233'
+vim.cmd 'highlight StatusLine gui=NONE cterm=NONE ctermfg=244 ctermbg=235'
+vim.cmd 'highlight StatusLineNC gui=NONE cterm=NONE ctermfg=243 ctermbg=234'
+vim.cmd 'highlight VertSplit gui=NONE cterm=NONE ctermfg=236 ctermbg=233'
+
+---
 -- LSP
---
+---
 
 local on_attach = function(client, bufnr)
 	local opts = { noremap = true, silent = true }
@@ -55,9 +72,9 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
 	}
 )
 
---
--- AUTO COMPLETION
---
+---
+-- Auto completion
+---
 
 vim.o.completeopt = 'menu,menuone,noselect'
 
@@ -97,7 +114,7 @@ cmp.setup {
 }
 
 --
--- KEY BINDINGS
+-- Key bindings
 --
 
 vim.api.nvim_set_keymap('', '<C-p>', '<Cmd>FZF<CR>', {})
